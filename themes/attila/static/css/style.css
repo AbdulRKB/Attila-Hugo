@@ -1,0 +1,1419 @@
+/* ============================================================
+   Attila Hugo Theme - CSS
+   Pixel-perfect port of the Ghost Attila theme by zutrinken
+   All values matched from the original Ghost CSS source
+   ============================================================ */
+
+/* --- Normalize --- */
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
+a{background:transparent}
+a:active,a:hover{outline:0}
+b,strong{font-weight:700}
+small{font-size:80%}
+img{border:0}
+figure{margin:1em 40px}
+hr{box-sizing:content-box;height:0}
+pre{overflow:auto}
+code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}
+button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}
+button{overflow:visible}
+table{border-collapse:collapse;border-spacing:0}
+td,th{padding:0}
+*,*::before,*::after{box-sizing:border-box}
+
+/* --- CSS Custom Properties (exact Ghost values) --- */
+:root {
+    --ghost-accent-color: #e84393;
+    --color-background-main: #FFF;
+    --color-background-secondary: #F7F8FA;
+    --color-background-contrast: #E1E3E6;
+    --color-background-overlay: rgba(37,40,43,0.9);
+    --color-content-lead: #000;
+    --color-content-main: #222426;
+    --color-content-secondary: #73777D;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --font-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.theme-dark:root {
+    --color-background-main: #222426;
+    --color-background-secondary: #1D1F20;
+    --color-background-contrast: #3B3D40;
+    --color-background-overlay: rgba(9,10,13,0.9);
+    --color-content-lead: #FFF;
+    --color-content-main: #E1E3E6;
+    --color-content-secondary: #909499;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.theme-light):root {
+        --color-background-main: #222426;
+        --color-background-secondary: #1D1F20;
+        --color-background-contrast: #3B3D40;
+        --color-background-overlay: rgba(9,10,13,0.9);
+        --color-content-lead: #FFF;
+        --color-content-main: #E1E3E6;
+        --color-content-secondary: #909499;
+    }
+}
+
+/* --- Fadein Animation (Ghost exact) --- */
+@keyframes fadein {
+    0%   { opacity: .2; }
+    100% { opacity: .9; }
+}
+
+/* --- Base Typography (Ghost exact: 62.5% root, 1em body) --- */
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+.menu-active body,
+html.menu-active {
+    overflow-y: hidden;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 1em;
+    line-height: 1.75em;
+    font-weight: 400;
+    color: var(--color-content-main);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    background: var(--color-background-main);
+}
+
+button, input, select, textarea {
+    transition: all ease-out 0.2s;
+}
+
+/* --- Page Wrapper (Ghost: .page-wrapper) --- */
+.viewport {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
+.viewport > .content {
+    flex: 1;
+}
+
+/* --- Inner Container (Ghost exact) --- */
+.inner {
+    max-width: calc(72rem + 8vw);
+    margin: 0 auto;
+    padding: 0 4vw;
+}
+
+@media only screen and (max-width: 640px) {
+    .inner {
+        padding: 0 6vw;
+    }
+}
+
+/* =============================================
+   NAVIGATION (Ghost exact values)
+   ============================================= */
+.nav-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 400;
+    transition: all ease-out 0.3s;
+}
+
+.nav-header .nav-wrapper {
+    display: flex;
+    max-height: calc(100vh - 6rem);
+    padding: 2rem 4rem;
+    overflow-y: auto;
+}
+
+.nav-header-left {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+
+.nav-header-left li {
+    position: relative;
+    margin-right: 3rem;
+    font-weight: 500;
+}
+
+.nav-header-left li.active {
+    font-weight: 600;
+}
+
+/* Active nav accent bar */
+.nav-header-left li.active a::before {
+    position: absolute;
+    content: "";
+    width: calc(100% + 3rem);
+    height: 3px;
+    left: -1.5rem;
+    top: -2rem;
+    background: var(--ghost-accent-color);
+}
+
+.nav-header-left a,
+.nav-header a {
+    cursor: pointer;
+    display: block;
+    padding: 1rem 0;
+    font-size: 1.6em;
+    line-height: 2rem;
+    color: var(--color-content-secondary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    transition: all linear 0.1s;
+}
+
+.nav-header-left a:hover,
+.nav-header a:hover,
+.nav-header-left a:focus,
+.nav-header a:focus {
+    color: var(--color-content-main);
+}
+
+.nav-header-left li a {
+    color: var(--color-content-main);
+}
+
+.nav-header-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.nav-header-right button,
+.nav-header-right a {
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: 4rem;
+    margin: 0 0.5rem;
+    padding: 1rem;
+    font-size: 2em;
+    color: var(--color-content-secondary);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all linear 0.1s;
+}
+
+.nav-header-right button:hover,
+.nav-header-right a:hover {
+    color: var(--color-content-main);
+}
+
+.nav-header-right svg {
+    width: 1em;
+    height: 1em;
+}
+
+/* Nav on cover pages */
+.cover-active .nav-header a,
+.has-cover .nav-header-left a,
+.has-cover .nav-header-left li a,
+.has-cover .nav-header-right button,
+.has-cover .nav-header-right a {
+    color: hsla(0,0%,100%,.8);
+}
+
+.cover-active .nav-header a:hover,
+.cover-active .nav-header a:focus,
+.has-cover .nav-header-left a:hover,
+.has-cover .nav-header-left li a:hover,
+.has-cover .nav-header-right button:hover,
+.has-cover .nav-header-right a:hover {
+    color: #fff;
+}
+
+/* =============================================
+   BLOG HEADER — Homepage Hero (Ghost exact)
+   ============================================= */
+.blog-header {
+    position: relative;
+    padding-top: calc(16rem + 4vw);
+}
+
+.blog-header.has-cover {
+    padding-top: calc(24rem + 8vw);
+    color: #fff;
+    background: #000;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.blog-header .blog-box {
+    position: relative;
+    z-index: 10;
+    padding-bottom: calc(4rem + 2vw);
+    text-align: center;
+    border-bottom: 1px solid var(--color-background-contrast);
+}
+
+.blog-header.has-cover .blog-box {
+    border: none;
+    padding-bottom: calc(8rem + 4vw);
+}
+
+/* Cover Image with fadein */
+.blog-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    background: no-repeat scroll center center / cover #000;
+    animation: .5s ease-in forwards fadein;
+    display: flex;
+    align-items: center;
+}
+
+.blog-cover::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 66.666%;
+    left: 0;
+    bottom: 0;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.333) 100%);
+}
+
+.blog-cover img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 120%;
+    top: -10%;
+    margin: 0;
+    z-index: 6;
+    object-fit: cover;
+    will-change: transform;
+}
+
+/* Blog Name — Ghost: 6em = 60px */
+.blog-name {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 6em;
+    line-height: 1em;
+    text-decoration: none;
+    color: var(--color-content-lead);
+}
+
+.has-cover .blog-name {
+    color: #fff;
+}
+
+/* Blog Description — Ghost: 3em = 30px */
+.blog-description {
+    display: block;
+    margin-top: 1rem;
+    padding: 0;
+    font-size: 3em;
+    line-height: 1.33334em;
+    color: var(--color-content-secondary);
+}
+
+.has-cover .blog-description {
+    color: #fff;
+}
+
+/* =============================================
+   POST HEADER — Single Post Hero (Ghost exact)
+   ============================================= */
+.post-header {
+    position: relative;
+    padding: calc(16rem + 4vw) 0 calc(2rem + 2vw);
+}
+
+.post-header.has-cover {
+    padding: calc(16rem + 8vw) 0 calc(4rem + 6vw);
+    margin-bottom: calc(4rem + 2vw);
+    background: #000;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.post-header .inner {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+/* Post Cover with fadein */
+.post-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    background: no-repeat scroll center center / cover #000;
+    animation: .5s ease-in forwards fadein;
+    display: flex;
+    align-items: center;
+}
+
+.post-cover img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 120%;
+    top: -10%;
+    margin: 0;
+    z-index: 6;
+    object-fit: cover;
+    will-change: transform;
+}
+
+.post-cover::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 66.666%;
+    left: 0;
+    bottom: 0;
+    z-index: 8;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.333) 100%);
+}
+
+/* Post Info — Ghost: 2em = 20px */
+.post-info {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    margin-bottom: 2rem;
+    font-size: 2em;
+    line-height: 1em;
+}
+
+.post-info .post-type {
+    color: var(--ghost-accent-color);
+}
+
+.post-info .post-count {
+    position: relative;
+    margin-left: 3.5rem;
+    color: var(--color-content-secondary);
+}
+
+.has-cover .post-info .post-type {
+    color: #fff;
+}
+
+.has-cover .post-info .post-count {
+    color: #fff;
+}
+
+/* Post Title — Ghost: 4em in cards, 6em in post header */
+.post-title {
+    position: relative;
+    z-index: 10;
+    margin: 0 0 2rem;
+    font-family: var(--font-heading);
+    font-size: 4em;
+    line-height: 1.25em;
+    font-weight: 700;
+    text-indent: -1px;
+    color: var(--color-content-lead);
+}
+
+.post-title a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+}
+
+.post-header .post-title {
+    margin: 0 0 4rem;
+    font-size: 6em;
+    line-height: 1.25em;
+}
+
+.has-cover .post-title {
+    color: #fff;
+}
+
+/* =============================================
+   POST META (Ghost exact: 1.6em = 16px)
+   ============================================= */
+.post-meta {
+    font-weight: 400;
+    font-size: 1.6em;
+    line-height: 2rem;
+    color: var(--color-content-secondary);
+}
+
+.post-meta a {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.post-meta a:hover {
+    text-decoration: underline;
+}
+
+/* Post header meta */
+.post-header .post-meta {
+    position: relative;
+    padding-bottom: 4rem;
+    z-index: 10;
+}
+
+.post-header .post-meta::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.post-header .post-meta::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 8rem;
+    height: 1px;
+    background: var(--color-background-contrast);
+}
+
+.has-cover .post-meta {
+    color: hsla(0,0%,100%,.8);
+    padding: 0;
+}
+
+.has-cover .post-meta::before {
+    display: none;
+}
+
+/* Avatars — Ghost: 4rem = 40px */
+.post-meta-avatars {
+    float: left;
+    margin-right: 1rem;
+}
+
+.post-meta-avatars::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.post-meta-avatar {
+    position: relative;
+    z-index: 1;
+    float: left;
+    display: block;
+    vertical-align: top;
+    width: 4rem;
+    height: 4rem;
+    margin: 0;
+    margin-right: -1rem;
+    border-radius: 100%;
+    border: 2px solid var(--color-background-contrast);
+    box-sizing: border-box;
+    overflow: hidden;
+    background: var(--color-background-contrast);
+}
+
+.post-meta-avatar:last-child {
+    margin-right: 0;
+}
+
+.post-meta-avatar img {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-meta-avatar.default-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-meta-avatar.default-avatar svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: var(--color-content-secondary);
+}
+
+.has-cover .post-meta-avatar {
+    border-color: #fff;
+}
+
+/* Author name — Ghost: font-weight 500 */
+.post-meta-author {
+    color: var(--color-content-main);
+    font-weight: 500;
+    margin: 0;
+}
+
+.has-cover .post-meta-author {
+    color: #fff;
+}
+
+.post-meta .bull {
+    margin: 0 0.4rem;
+}
+
+/* =============================================
+   PAGE HEADER (About page etc.)
+   ============================================= */
+.page-header {
+    position: relative;
+    padding: calc(16rem + 4vw) 0 calc(2rem + 2vw);
+}
+
+.page-header .post-title {
+    margin: 0 0 2rem;
+    font-family: var(--font-heading);
+    font-size: 4em;
+    line-height: 1.25em;
+    font-weight: 700;
+    text-indent: -1px;
+    color: var(--color-content-lead);
+}
+
+/* =============================================
+   PROGRESS BAR
+   ============================================= */
+.progress-container {
+    position: fixed;
+    width: 100%;
+    height: 4px;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    background: transparent;
+    transition: all ease-out 0.2s;
+}
+
+.progress-container.complete {
+    transform: translateY(-3px);
+}
+
+.progress-bar {
+    display: block;
+    width: 0;
+    height: 3px;
+    background: var(--ghost-accent-color);
+}
+
+/* =============================================
+   POST CONTENT — Article Body (Ghost exact)
+   ============================================= */
+.post-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.75em;
+    line-height: 2em;
+    color: var(--color-content-main);
+}
+
+.post-content > * {
+    min-width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.post-content > *:last-child {
+    margin-bottom: 0;
+}
+
+.post-content > *:first-child {
+    margin-top: 0;
+}
+
+.post-content a:not([class]) {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 400;
+    box-shadow: inset 0 -2px 0 var(--ghost-accent-color);
+    transition: all ease-out 0.1s;
+}
+
+.post-content a:not([class]):focus,
+.post-content a:not([class]):hover {
+    box-shadow: inset 0 -3px 0 var(--ghost-accent-color);
+}
+
+.post-content h1, .post-content h2, .post-content h3,
+.post-content h4, .post-content h5, .post-content h6 {
+    margin: 0 0 4rem;
+    line-height: 1.25em;
+    font-family: var(--font-heading);
+    text-rendering: optimizeLegibility;
+    color: var(--color-content-lead);
+}
+
+.post-content h1 { font-size: 4rem; text-indent: -1px; }
+.post-content h2 { font-size: 3rem; text-indent: -1px; }
+.post-content h3 { font-size: 2.4rem; }
+.post-content h4 { font-size: 2rem; }
+.post-content h5, .post-content h6 { font-size: 2rem; font-weight: 500; }
+
+.post-content h1 a, .post-content h2 a, .post-content h3 a,
+.post-content h4 a, .post-content h5 a, .post-content h6 a {
+    font-weight: inherit;
+}
+
+.post-content p {
+    margin: 0 0 4rem;
+}
+
+.post-content ol, .post-content ul {
+    margin: 0 0 4rem;
+    padding-left: 2em;
+    box-sizing: border-box;
+}
+
+.post-content li {
+    position: relative;
+}
+
+.post-content hr {
+    display: block;
+    height: 1px;
+    margin: 0 0 4rem;
+    padding: 0;
+    background: var(--color-background-contrast);
+    border: 0;
+}
+
+.post-content blockquote {
+    margin: 0 0 4rem;
+    padding: 0.25em 1em;
+    box-sizing: border-box;
+    border-left: 0.25em solid var(--ghost-accent-color);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.post-content blockquote * {
+    margin: 0 0 1em;
+    font-family: inherit;
+    color: inherit;
+}
+
+.post-content blockquote *:first-child { margin-top: 0; }
+.post-content blockquote *:last-child { margin-bottom: 0; }
+
+.post-content b, .post-content strong {
+    font-weight: 700;
+    color: var(--color-content-lead);
+}
+
+.post-content code, .post-content tt {
+    position: relative;
+    margin: 0 1px;
+    padding: 4px 8px;
+    font-family: monospace, sans-serif;
+    font-size: 0.75em;
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-background-contrast);
+    top: -2px;
+    white-space: pre-wrap;
+}
+
+.post-content pre {
+    position: relative;
+    margin: 0 0 4rem;
+    padding: 1em;
+    overflow: hidden;
+    font-family: monospace, sans-serif;
+    white-space: pre;
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-background-contrast);
+    box-sizing: border-box;
+}
+
+.post-content pre code, .post-content pre tt {
+    display: block;
+    position: static;
+    top: auto;
+    margin: -1.33334em -1.33334em -1.33334em 1.33334em;
+    padding: 1.33334em;
+    overflow-x: auto;
+    font-size: 0.75em;
+    line-height: 2em;
+    white-space: pre;
+    background: transparent;
+    border: none;
+    vertical-align: inherit;
+}
+
+.post-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 0 4rem;
+}
+
+.post-content figure {
+    margin: 0 0 4rem;
+}
+
+.post-content figure figcaption {
+    position: relative;
+    color: var(--color-content-secondary);
+    max-width: calc(64rem + 8vw);
+    margin: auto;
+    font-size: 0.75em;
+    line-height: 2em;
+    padding: 2rem 0;
+}
+
+.post-content figure figcaption::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 8rem;
+    height: 1px;
+    background: var(--color-background-contrast);
+}
+
+/* =============================================
+   POST NAVIGATION
+   ============================================= */
+.post-nav {
+    display: flex;
+    border-top: 1px solid var(--color-background-contrast);
+    border-bottom: 1px solid var(--color-background-contrast);
+    margin: 4rem 0 0;
+}
+
+.post-nav-item {
+    display: block;
+    width: 50%;
+    padding: 2rem 2.5rem;
+    text-decoration: none;
+    color: var(--color-content-main);
+    transition: color ease 0.2s;
+}
+
+.post-nav-prev {
+    text-align: left;
+}
+
+.post-nav-next {
+    border-left: 1px solid var(--color-background-contrast);
+    text-align: right;
+}
+
+.post-nav-title {
+    display: inline;
+    font-size: 1.9rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-content-lead);
+    line-height: 1.4em;
+}
+
+.post-nav-teaser {
+    margin: 0;
+}
+
+.post-nav-arrow {
+    display: inline;
+    font-size: 1.8rem;
+    color: #9baab4;
+    font-style: normal;
+    font-weight: 400;
+    transition: color ease 0.2s;
+}
+
+.post-nav-item:hover .post-nav-arrow {
+    color: var(--color-content-main);
+}
+
+.post-nav-excerpt {
+    margin: 0.6rem 0 0.6rem;
+    font-size: 1.5rem;
+    color: var(--color-content-secondary);
+    line-height: 1.5em;
+}
+
+.post-nav-date {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 1.4rem;
+    color: var(--color-content-secondary);
+}
+
+@media only screen and (max-width: 640px) {
+    .post-nav {
+        flex-direction: column;
+    }
+    .post-nav-item {
+        width: 100%;
+        padding: 1.5rem 0;
+    }
+    .post-nav-next {
+        border-left: none;
+        border-top: 1px solid var(--color-background-contrast);
+    }
+}
+
+
+
+/* =============================================
+   CONTAINER — Post List (Ghost exact)
+   ============================================= */
+.container {
+    position: relative;
+}
+
+.container .post .post-box {
+    padding-top: calc(4rem + 2vw);
+    padding-bottom: calc(4rem + 2vw);
+    border-bottom: 1px solid var(--color-background-contrast);
+}
+
+.container .post:last-of-type .post-box {
+    border-bottom: none;
+}
+
+/* Post excerpt — Ghost: 1.75em = 17.5px */
+.post-excerpt {
+    margin: 1em 0 0;
+    font-size: 1.75em;
+    line-height: 2em;
+    color: var(--color-content-main);
+}
+
+.post-excerpt p {
+    margin: 0;
+}
+
+/* Post in container — card-level meta uses shared .post-meta styles */
+.container .post .post-meta {
+    padding-bottom: 0;
+}
+
+.container .post .post-meta::before {
+    display: none;
+}
+
+/* =============================================
+   PAGINATION (Ghost exact)
+   ============================================= */
+.pagination {
+    position: relative;
+    margin: 0;
+}
+
+.pagination-box {
+    padding-top: calc(2rem + 1vw);
+    padding-bottom: calc(2rem + 1vw);
+    text-align: center;
+}
+
+.pagination-info {
+    font-size: 1.6em;
+    line-height: 4rem;
+    height: 4rem;
+    display: block;
+    text-align: center;
+    color: var(--color-content-secondary);
+}
+
+/* =============================================
+   POST NAVIGATION — Prev/Next (Ghost exact)
+   ============================================= */
+.post-nav {
+    position: relative;
+    margin-top: -1px;
+    border-top: 1px solid var(--color-background-contrast);
+    border-bottom: 1px solid var(--color-background-contrast);
+}
+
+.post-nav::after {
+    position: absolute;
+    content: "";
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    background: var(--color-background-contrast);
+    z-index: 2;
+}
+
+.post-nav-next,
+.post-nav-prev {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 50%;
+}
+
+.post-nav-next {
+    float: left;
+}
+
+.post-nav-next .post-nav-teaser {
+    padding-right: 3rem;
+}
+
+.post-nav-prev {
+    float: right;
+    text-align: right;
+}
+
+.post-nav-prev .post-nav-teaser {
+    padding-left: 3rem;
+}
+
+.post-nav-next:hover,
+.post-nav-prev:hover {
+    color: inherit;
+}
+
+.post-nav-next:hover i,
+.post-nav-prev:hover i {
+    color: var(--ghost-accent-color);
+}
+
+.post-nav-teaser {
+    position: relative;
+    padding: 2rem 0;
+    min-height: 8rem;
+}
+
+.post-nav i {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    font-size: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    transition: all ease-out 0.2s;
+    color: var(--color-background-contrast);
+}
+
+.post-nav-next i {
+    left: 0;
+    margin-left: -4rem;
+}
+
+.post-nav-prev i {
+    right: 0;
+    margin-right: -4rem;
+}
+
+.post-nav-title {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    font-family: var(--font-heading);
+    font-size: 2em;
+    line-height: 3rem;
+    color: var(--color-content-lead);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-nav-excerpt {
+    height: 5rem;
+    margin: 0 0 1rem;
+    font-size: 1.5em;
+    line-height: 2.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-nav-date {
+    margin: 0;
+    font-size: 1.6em;
+    line-height: 2rem;
+    color: var(--color-content-secondary);
+}
+
+/* =============================================
+   POST FOOTER
+   ============================================= */
+.post-footer {
+    margin: 12rem 0 6rem;
+}
+
+.post-footer::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+/* =============================================
+   SITE FOOTER (Ghost exact)
+   ============================================= */
+.site-footer {
+    position: relative;
+    z-index: 20;
+    padding-top: calc(12rem + 8vw);
+    padding-bottom: 12rem;
+    margin-top: auto;
+    font-size: 1.6em;
+    line-height: 2rem;
+    color: var(--color-content-secondary);
+}
+
+.site-footer .inner {
+    max-width: none;
+    padding: 0 4rem;
+}
+
+.site-footer .nav-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4rem;
+    gap: 3rem;
+    justify-content: space-between;
+}
+
+.site-footer a {
+    display: inline-block;
+    color: var(--color-content-secondary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.site-footer a:hover {
+    color: var(--color-content-main);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-content-secondary);
+    font-size: 1em;
+    font-family: var(--font-body);
+    padding: 0;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.theme-toggle:hover {
+    color: var(--color-content-main);
+}
+
+/* Theme Icon — Ghost exact style */
+.theme-toggle-icon {
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.25em;
+    height: 1.25em;
+    border: 1px solid var(--color-content-secondary);
+    box-sizing: border-box;
+    margin: 0 0.75rem 0 0.25rem;
+    border-radius: 2rem;
+    overflow: hidden;
+    transition: linear 0.2s background-color;
+}
+
+.theme-toggle-icon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: var(--color-content-secondary);
+    transition: linear 0.2s all;
+}
+
+.theme-toggle-icon svg {
+    display: none;
+}
+
+.theme-dark .theme-toggle-icon {
+    border: 0;
+    background: #eb3;
+}
+
+.theme-dark .theme-toggle-icon::after {
+    left: -25%;
+    border-radius: 2rem;
+    background: var(--color-background-main);
+}
+
+.theme-light .theme-toggle-icon {
+    border: 0;
+    background: #6bf;
+}
+
+.theme-light .theme-toggle-icon::after {
+    left: 20%;
+    top: 20%;
+    width: 60%;
+    height: 60%;
+    border-radius: 2rem;
+    background: #ff3;
+}
+
+/* =============================================
+   SEARCH OVERLAY
+   ============================================= */
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(14, 23, 36, 0.4);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 8vh;
+}
+
+.search-overlay.active {
+    display: flex;
+}
+
+@keyframes sodoSearchSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-overlay.active .search-wrapper {
+    animation: sodoSearchSlideUp 0.2s ease-out forwards;
+}
+
+.search-wrapper {
+    width: 90%;
+    max-width: 600px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem 1.6rem;
+}
+
+.search-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1.2rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #15171a;
+    flex-shrink: 0;
+}
+
+.search-close-btn svg {
+    width: 100%;
+    height: 100%;
+}
+
+.search-input {
+    width: 100%;
+    font-size: 1.6rem;
+    font-weight: 400;
+    background: transparent;
+    border: none;
+    color: #15171a;
+    outline: none;
+    font-family: var(--font-body);
+}
+
+.search-input::placeholder {
+    color: #aebbc1;
+    font-weight: 400;
+}
+
+/* Search Results */
+.search-results {
+    display: none;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-results.has-results {
+    display: block;
+}
+
+.search-results-heading {
+    padding: 1rem 2rem 0.6rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #738a94;
+    border-top: 1px solid #e6e6e6;
+}
+
+.search-result-item {
+    display: block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    color: #15171a;
+    transition: background 0.15s ease;
+    cursor: pointer;
+}
+
+.search-result-item:hover {
+    background: #f5f5f5;
+}
+
+.search-result-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.3rem;
+    line-height: 1.3em;
+    color: #15171a;
+}
+
+.search-result-excerpt {
+    font-size: 1.3rem;
+    color: #738a94;
+    margin: 0;
+    line-height: 1.4em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-result-title mark,
+.search-result-excerpt mark {
+    background: none;
+    color: inherit;
+    font-weight: 700;
+}
+
+/* =============================================
+   READING TIME
+   ============================================= */
+.reading-time {
+    color: inherit;
+}
+
+/* =============================================
+   UTILITY
+   ============================================= */
+.clear { clear: both; }
+.hidden { display: none; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media only screen and (max-width: 640px) {
+    .post-title {
+        font-size: 3em;
+    }
+
+    .post-header .post-title {
+        font-size: 4em;
+    }
+
+    .blog-name {
+        font-size: 4em;
+    }
+
+    .blog-description {
+        font-size: 2em;
+    }
+
+    .post-card-title {
+        font-size: 3em;
+    }
+
+    .post-nav::after {
+        display: none;
+    }
+
+    .post-nav-next,
+    .post-nav-prev {
+        display: block;
+        width: 100%;
+    }
+
+    .post-nav-next .post-nav-teaser {
+        padding-right: 0;
+    }
+
+    .post-nav-prev .post-nav-teaser {
+        padding-left: 0;
+    }
+
+    .post-nav-teaser {
+        min-height: 4em;
+        padding: 2em 0;
+    }
+
+    .post-nav-teaser::after {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 1px;
+        left: 0;
+        bottom: 0;
+        margin-bottom: -1px;
+        background: var(--color-background-contrast);
+        z-index: 2;
+    }
+
+    .site-footer .nav-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .post-title {
+        -webkit-hyphens: auto;
+        hyphens: auto;
+    }
+}

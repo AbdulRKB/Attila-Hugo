@@ -1,0 +1,46 @@
+{{ $pages := where .Site.RegularPages "Section" "posts" }}
+{{ $currentIndex := -1 }}
+{{ range $i, $p := $pages }}
+    {{ if eq $p.RelPermalink $.RelPermalink }}
+        {{ $currentIndex = $i }}
+    {{ end }}
+{{ end }}
+
+{{ if ge $currentIndex 0 }}
+<nav class="post-nav">
+    {{ if gt $currentIndex 0 }}
+        {{ $prev := index $pages (sub $currentIndex 1) }}
+        <a class="post-nav-item post-nav-prev" href="{{ $prev.RelPermalink }}">
+            <div class="post-nav-teaser">
+                <h4 class="post-nav-title"><span class="post-nav-arrow">&larr;</span> {{ $prev.Title }}</h4>
+                {{ if $prev.Description }}
+                    <p class="post-nav-excerpt">{{ $prev.Description | truncate 80 }}</p>
+                {{ else if $prev.Summary }}
+                    <p class="post-nav-excerpt">{{ $prev.Summary | plainify | truncate 80 }}</p>
+                {{ end }}
+                <time class="post-nav-date" datetime="{{ $prev.Date.Format "2006-01-02" }}">{{ $prev.Date.Format "02 Jan 2006" }}</time>
+            </div>
+        </a>
+    {{ else }}
+        <div class="post-nav-item post-nav-prev"></div>
+    {{ end }}
+
+    {{ $nextIndex := add $currentIndex 1 }}
+    {{ if lt $nextIndex (len $pages) }}
+        {{ $next := index $pages $nextIndex }}
+        <a class="post-nav-item post-nav-next" href="{{ $next.RelPermalink }}">
+            <div class="post-nav-teaser">
+                <h4 class="post-nav-title">{{ $next.Title }} <span class="post-nav-arrow">&rarr;</span></h4>
+                {{ if $next.Description }}
+                    <p class="post-nav-excerpt">{{ $next.Description | truncate 80 }}</p>
+                {{ else if $next.Summary }}
+                    <p class="post-nav-excerpt">{{ $next.Summary | plainify | truncate 80 }}</p>
+                {{ end }}
+                <time class="post-nav-date" datetime="{{ $next.Date.Format "2006-01-02" }}">{{ $next.Date.Format "02 Jan 2006" }}</time>
+            </div>
+        </a>
+    {{ else }}
+        <div class="post-nav-item post-nav-next"></div>
+    {{ end }}
+</nav>
+{{ end }}

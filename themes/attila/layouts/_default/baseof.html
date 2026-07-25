@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale | default "en" }}">
+<head>
+    {{- partial "head.html" . -}}
+</head>
+<body class="{{ with .Params.bodyClass }}{{ . }}{{ end }}">
+    <script>
+        var localTheme = localStorage.getItem('attila_theme');
+        switch (localTheme) {
+            case 'dark':
+                document.documentElement.classList.add('theme-dark');
+                break;
+            case 'light':
+                document.documentElement.classList.add('theme-light');
+                break;
+            default:
+                document.documentElement.classList.remove('theme-dark', 'theme-light');
+                break;
+        }
+    </script>
+
+    <div class="viewport">
+        {{- partial "header.html" . -}}
+
+        {{- block "main" . -}}{{- end -}}
+
+        {{- partial "footer.html" . -}}
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-wrapper">
+            <div class="search-box">
+                <button class="search-close-btn" id="search-close" aria-label="Close search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <input type="text" class="search-input" id="search-input" placeholder="Search posts, tags and authors" />
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <script src="{{ "js/main.js" | relURL }}"></script>
+</body>
+</html>

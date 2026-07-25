@@ -1,0 +1,49 @@
+baseURL = "https://abdulrkb.github.io/Attila-Hugo/" # <-- UPDATE THIS TO YOUR GITHUB PAGES URL
+title = "Attila Hugo"
+theme = "attila"
+paginate = 10
+summaryLength = 30
+defaultContentLanguage = "en"
+
+[languages]
+  [languages.en]
+    weight = 1
+    
+    [languages.en.params]
+      locale = "en-US"
+      label = "English"
+
+[params]
+  description = "Thoughts, stories and ideas."
+  author = "Abdul Rehman"
+  footerCopyright = "Attila Hugo"
+  footerYear = "2026"
+  footerCredits = "Published with Hugo and Attila"
+  authorAvatar = "images/avatar.png"
+  accentColor = "#e84393"
+  coverImage = "images/cover.jpg"
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 2
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[outputs]
+  home = ["HTML", "JSON"]
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[permalinks]
+  posts = "/:filename/"

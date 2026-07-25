@@ -1,0 +1,30 @@
+{{ define "main" }}
+
+<header class="blog-header{{ if .Site.Params.coverImage }} has-cover{{ end }}">
+    <div class="inner">
+        <div class="blog-box">
+            <h1 class="blog-name">{{ .Site.Title }}</h1>
+            {{ with .Site.Params.description }}
+                <span class="blog-description">{{ . }}</span>
+            {{ end }}
+        </div>
+    </div>
+    {{ with .Site.Params.coverImage }}
+    <div class="blog-cover">
+        <img src="{{ . | relURL }}" alt="{{ $.Site.Title }}" />
+    </div>
+    {{ end }}
+</header>
+
+<main class="content" role="main">
+    <div class="container">
+        {{ $paginator := .Paginate (where .Site.RegularPages "Section" "posts") }}
+        {{ range $paginator.Pages }}
+            {{ partial "post-card.html" . }}
+        {{ end }}
+
+        {{ partial "pagination.html" $paginator }}
+    </div>
+</main>
+
+{{ end }}

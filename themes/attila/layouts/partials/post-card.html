@@ -1,0 +1,17 @@
+<article class="post">
+    <div class="inner">
+        <div class="post-box post-card">
+            <h2 class="post-title">
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </h2>
+            <div class="post-meta">
+                By {{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author }}{{ end }} on <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+            </div>
+            {{ if .Description }}
+                <div class="post-excerpt"><p>{{ .Description }}</p></div>
+            {{ else if .Summary }}
+                <div class="post-excerpt"><p>{{ .Summary | plainify | truncate 200 }}</p></div>
+            {{ end }}
+        </div>
+    </div>
+</article>

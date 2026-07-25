@@ -1,0 +1,15 @@
+<footer class="site-footer">
+    <div class="inner">
+        <div class="nav-wrapper">
+            <span>{{ .Site.Params.footerCopyright | default .Site.Title }} &copy; {{ .Site.Params.footerYear | default
+                now.Year }}</span>
+            <span class="nav-center">
+                <a href="javascript:void(0)" id="theme-toggle" class="theme-toggle">
+                    <span class="theme-toggle-icon"></span>
+                    <span id="theme-label">System</span>
+                </a>
+            </span>
+            <span>{{ .Site.Params.footerCredits | default "Published with Hugo and Attila" }}</span>
+        </div>
+    </div>
+</footer>

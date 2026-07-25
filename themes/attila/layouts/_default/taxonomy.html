@@ -1,0 +1,19 @@
+{{ define "main" }}
+
+<header class="page-header">
+    <div class="inner">
+        <h1 class="post-title">{{ .Title }}</h1>
+    </div>
+</header>
+
+<main class="content" role="main">
+    <div class="inner">
+        <div class="post-feed">
+            {{ range .Pages }}
+                {{ partial "post-card.html" . }}
+            {{ end }}
+        </div>
+    </div>
+</main>
+
+{{ end }}

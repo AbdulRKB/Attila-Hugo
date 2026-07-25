@@ -1,0 +1,67 @@
+{{ define "main" }}
+
+{{ $hasCover := false }}
+{{ if .Params.cover }}{{ $hasCover = true }}{{ end }}
+{{ if .Params.image }}{{ $hasCover = true }}{{ end }}
+
+<div class="progress-container">
+    <span class="progress-bar"></span>
+</div>
+
+<header class="post-header{{ if $hasCover }} has-cover{{ end }}">
+    <div class="inner">
+        <span class="post-info">
+            <span class="post-type">Article</span>
+            {{ with .Params.categories }}
+            {{ range first 1 . }}
+            <span class="post-count">{{ . }}</span>
+            {{ end }}
+            {{ end }}
+        </span>
+        <h1 class="post-title">{{ .Title }}</h1>
+        <div class="post-meta">
+            <div class="post-meta-avatars">
+                {{ if .Site.Params.authorAvatar }}
+                <figure class="post-meta-avatar">
+                    <img src="{{ .Site.Params.authorAvatar | relURL }}" alt="{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author }}{{ end }}" />
+                </figure>
+                {{ else }}
+                <figure class="post-meta-avatar default-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+                    </svg>
+                </figure>
+                {{ end }}
+            </div>
+            <h4 class="post-meta-author">{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author }}{{ end }}
+            </h4>
+            <!-- <span class="bull">&nbsp;</span> -->
+            <time datetime="{{ .Date.Format " 02-01-2006" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+            <span class="bull"> &bull; </span>
+            <span class="reading-time">{{ .ReadingTime }} min read</span>
+        </div>
+    </div>
+    {{ if $hasCover }}
+    <div class="post-cover">
+        <img src="{{ with .Params.cover }}{{ . | relURL }}{{ else }}{{ .Params.image | relURL }}{{ end }}"
+            alt="{{ .Title }}" />
+    </div>
+    {{ end }}
+</header>
+
+<main class="content" role="main">
+    <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                {{ .Content }}
+            </section>
+
+            <section class="post-footer">
+                {{ partial "post-nav.html" . }}
+            </section>
+        </div>
+    </article>
+</main>
+
+{{ end }}
